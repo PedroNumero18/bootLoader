@@ -1,6 +1,5 @@
 #!/bin/bash
 # Lance QEMU avec une config de debug avancée
-
 IMAGE="build/os-image.bin"
 
 # Vérifie si l'image existe
