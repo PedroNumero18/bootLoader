@@ -16,7 +16,11 @@ ADRESSE DE DÉBUT | ADRESSE DE FIN | UTILISATION
 -----------------------------------------------------------------------
 0x010000         | ...            | KERNEL
 -----------------------------------------------------------------------
+0x900000         | ...            | Stack 
 
 1. Ne jamais écrire en dessous de 0x500 (Réservé BIOS).
 2. Le Stage 1 charge le Stage 2 à l'adresse 0x9000.
 3. La pile (ESP) sera placée loin du code (ex: 0x90000) en Mode Protégé.
+
+La stack est à 0x90000, le kernel commence à 0x10000. Il y a 0x80000 = 512 Ko d'écart entre les deux
+adapter pour ce projet 
