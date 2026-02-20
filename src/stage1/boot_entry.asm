@@ -13,23 +13,16 @@ start:
     mov sp, 0x7c00
 
     sti
+    mov bx, 0x9000      ; Destination : adresse du Stage 2
+    mov es, bx
+    mov bx, 0x0000  
+    mov dh, 0x10        ; Nombre de secteurs à lire (à adapter selon la taille réelle)
+    call disk_load
+    jmp 0x0000:0x9000
 
-    mov si, msg ;just for a Hello World
 
-print:
-    lodsb; load byte at ds:si(segment: offset) to AL register and incrment SI
-    cmp al, 0
-    je done
-    mov ah, 0xE
-    int 0x10
-    jmp print
+%include "src/common/print.asm"
+%include "src/stage1/disk_load.asm"
 
-done:
-    cli
-    hlt ;halt the cpu
-
-msg: db 'Hello World!', 0
-
-times 510 - ($ - $$) db 0 ; to fill the remaining space with zeros untils we reach 512 bytes
-
+times 510 - ($ - $$) db 0x00
 dw 0xAA55
