@@ -11,9 +11,10 @@ disk_load:
     int 0x13       
     jc .disk_error      ; Si Carry Flag = 1 → erreur hardware
 
-    pop ax              ; Récupère le nombre de secteurs demandés
-    pop dx
-    cmp al, dh          ; AL = secteurs réellement lus | DH = secteurs demandés
+    mov bl, al          ; Sauvegarde le nombre de secteurs lus
+    pop ax              ; Restaure AX original
+    pop dx              ; Restaure DX original
+    cmp bl, dh          ; BL = secteurs réellement lus | DH = secteurs demandés
     jne .sectors_error
 
     ret

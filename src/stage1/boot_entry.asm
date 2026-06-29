@@ -13,12 +13,12 @@ start:
     mov sp, 0x7c00
 
     sti
-    mov bx, 0x9000      ; Destination : adresse du Stage 2
+    mov bx, 0x0900      ; Destination : adresse du Stage 2
     mov es, bx
     mov bx, 0x0000  
-    mov dh, 0x10        ; Nombre de secteurs à lire (à adapter selon la taille réelle)
+    mov dh, 0x01        ; Nombre de secteurs à lire (Stage 2 = 1 secteur actuel)
     call disk_load
-    jmp 0x0000:0x9000
+    jmp 0x0900:0x0000
 
 
 %include "src/common/print.asm"

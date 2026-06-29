@@ -1,7 +1,7 @@
 ASM         = nasm
 ASM_FLAGS   = -f bin
 QEMU        = qemu-system-i386
-QEMU_FLAGS  = -fda
+QEMU_FLAGS  = -hda
 
 SRC_DIR     = src
 COMMON_DIR  = $(SRC_DIR)/common
@@ -39,6 +39,12 @@ all: info $(OS_IMAGE)
 $(OS_IMAGE): $(STAGE1_BIN) $(STAGE2_BIN)
 	@echo "  LINK    $@"
 	@cat $^ > $@
+	@SIZE=$$(stat -c%s $@); \
+	if [ $$((SIZE % 512)) -ne 0 ]; then \
+	  PADDING=$$((512 - SIZE % 512)); \
+	  dd if=/dev/zero bs=1 count=$$PADDING >> $@ 2>/dev/null; \
+	  echo "  ✓ Padded image to $$((SIZE + PADDING)) bytes"; \
+	fi
 	@echo "  ✓ Image créée: $@"
 
 # COMPILATION STAGE 1
